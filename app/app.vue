@@ -1,8 +1,6 @@
 <template>
   <UApp>
     <NuxtRouteAnnouncer />
-    <UButton>
-      Poshanka!
-    </UButton>
+    <NuxtPage/>
   </UApp>
 </template>
