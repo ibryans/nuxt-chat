@@ -1,25 +1,42 @@
 <script setup>
-    definePageMeta({
-        layout: "blue"
-    });
-
     const { messages, sendMessage } = useChat();
 
-    function talk() {
-        const message = "Hello world!";
-        console.log("Mandando a mensagem...");
-        sendMessage(message);
+    definePageMeta({
+        name: "Chat"
+    })
+
+    const input = ref("");
+
+    const submit = () => {
+        sendMessage(input.value);
+        input.value = "";
     }
 </script>
 
 <template>
-    <UContainer>
-        <h1>Chat page</h1>
-
-        <UButton @click="talk">Send a message</UButton>
-
-        <p v-for="message of messages" :key="message.id">
-            {{ message.content }}
-        </p>
+    <UContainer class="chat">
+        <UChatMessages 
+            :messages="messages"
+            class="chat__messages">
+        </UChatMessages>
+        <UChatPrompt
+            class="chat__prompt"
+            variant="soft" 
+            v-model="input"
+            @submit="submit">
+            <UChatPromptSubmit/>
+        </UChatPrompt>
     </UContainer>
 </template>
+
+<style lang="css" scoped>
+    @reference "../assets/css/main.css";
+
+    .chat {
+        @apply h-full flex items-center justify-center p-4 flex-col;
+    }
+
+    .chat__messages {
+        @apply justify-end;
+    }
+</style>

@@ -1,21 +1,62 @@
-<script setup></script>
+<script setup lang="ts">
+    import type { NavigationMenuItem } from "@nuxt/ui";
+
+    const route = useRoute();
+
+    const pageTitle = computed(() => {
+        return route.name?.toString();
+    }); 
+
+    const menuItems: NavigationMenuItem[] = [
+        {
+            label: "Home",
+            icon: "i-lucide-house",
+            to: "/"
+        },
+        {
+            label: "Chat",
+            icon: "i-lucide-message-circle",
+            to: "/chat"
+        },
+    ];
+</script>
 
 <template>
-    <div class="layout-container">
-        <main class="main-content">
+    <UDashboardGroup class="dashboard">
+        <UDashboardSidebar collapsible>
+            <template #header="{ collapsed }">
+                <h1 v-if="!collapsed" class="dashboard__logo"> 
+                    Nuxt Chat 
+                </h1>
+                <h1 v-else class="dashboard__logo"> 
+                    N 
+                </h1>
+            </template>
+
+            <template #default>
+                <UNavigationMenu
+                    :items="menuItems"
+                    orientation="vertical"
+                />
+            </template>
+        </UDashboardSidebar>
+        
+        <UDashboardPanel>
+            <UDashboardNavbar :title="pageTitle">
+                <template #leading>
+                    <UDashboardSidebarCollapse/>
+                </template>
+            </UDashboardNavbar>
+            
             <slot/>
-        </main>
-    </div>
+        </UDashboardPanel>
+    </UDashboardGroup>
 </template>
 
 <style scoped>
-    .layout-container {
-        height: calc(100vh - 4rem);
-        background-color: var(--ui-bg);
-    }
+    @reference "../assets/css/main.css";
 
-    .main-content {
-        height: 100%;
-        margin-top: 4rem;
+    .dashboard__logo {
+        @apply text-xl font-bold text-center w-full;
     }
 </style>
