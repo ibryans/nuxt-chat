@@ -1,13 +1,11 @@
 <script setup lang="ts">
-    import type { NavigationMenuItem } from "@nuxt/ui";
-
     const route = useRoute();
 
     const pageTitle = computed(() => {
         return route.name?.toString();
     }); 
 
-    const menuItems: NavigationMenuItem[] = [
+    const menuItems = [
         {
             label: "Home",
             icon: "i-lucide-house",

@@ -17,12 +17,12 @@
     <UContainer class="chat">
         <UChatMessages 
             :messages="messages"
-            class="chat__messages">
-        </UChatMessages>
+            class="chat__messages"
+        />
         <UChatPrompt
+            v-model="input"
             class="chat__prompt"
             variant="soft" 
-            v-model="input"
             @submit="submit">
             <UChatPromptSubmit/>
         </UChatPrompt>
