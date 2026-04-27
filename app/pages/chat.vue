@@ -6,10 +6,13 @@
     })
 
     const input = ref("");
+    const typing = ref(false);
 
-    const submit = () => {
-        sendMessage(input.value);
+    const submit = async () => {
+        typing.value = true;
+        await sendMessage(input.value);
         input.value = "";
+        typing.value = false;
     }
 </script>
 
@@ -17,6 +20,7 @@
     <UContainer class="chat">
         <UChatMessages 
             :messages="messages"
+            :status="typing ? 'submitted' : 'ready'"
             class="chat__messages"
         />
         <UChatPrompt
