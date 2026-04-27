@@ -22,7 +22,11 @@
             :messages="messages"
             :status="typing ? 'submitted' : 'ready'"
             class="chat__messages"
-        />
+        >
+            <template #content="{ message }">
+                <MarkdownRenderer :content="message.content" />
+            </template>
+        </UChatMessages>
         <UChatPrompt
             v-model="input"
             class="chat__prompt"
@@ -37,10 +41,11 @@
     @reference "../assets/css/main.css";
 
     .chat {
-        @apply h-full flex items-center justify-center p-4 flex-col;
+        flex: 1 1 auto;
+        @apply flex items-center overflow-auto justify-center p-4 flex-col;
     }
 
     .chat__messages {
-        @apply justify-end;
+        @apply overflow-auto;
     }
 </style>

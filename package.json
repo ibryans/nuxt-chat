@@ -27,6 +27,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@nuxtjs/mdc": "^0.21.1",
     "husky": "^9.1.7",
     "sass-embedded": "^1.96.0"
   }
