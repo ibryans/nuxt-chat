@@ -1,13 +1,11 @@
 import type { Chat, ChatMessage } from "~/types";
 
-export default function useChat() {
-    const chat = ref<Chat>({
-        id: "1",
-        messages: [],
-        title: "Test chat"
-    });
+export default function useChat(chatId: string) {
+    const { chats } = useChats();
     
-    const messages = computed<ChatMessage[]>(() => chat.value.messages);
+    const chat = computed(() => chats.value.find(c => c.id === chatId) as Chat);
+    
+    const messages = computed<ChatMessage[]>(() => chat.value?.messages || []);
 
     function createMessage(message: string, role: ChatMessage["role"]) {
         const id = messages.value.length.toString();

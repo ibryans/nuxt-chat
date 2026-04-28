@@ -1,5 +1,7 @@
-<script setup>
-    const { messages, sendMessage } = useChat();
+<script setup lang="ts">
+    const route = useRoute();
+
+    const { messages, sendMessage } = useChat(route.params.id as string);
 
     definePageMeta({
         name: "Chat"
@@ -9,36 +11,44 @@
     const typing = ref(false);
 
     const submit = async () => {
+        const payload = input.value;
+        
         typing.value = true;
-        await sendMessage(input.value);
         input.value = "";
+        
+        await sendMessage(payload);
+        
         typing.value = false;
     }
 </script>
 
 <template>
     <UContainer class="chat">
+        
         <UChatMessages 
             :messages="messages"
             :status="typing ? 'submitted' : 'ready'"
-            class="chat__messages"
-        >
+            class="chat__messages">
+            
             <template #content="{ message }">
                 <MarkdownRenderer :content="message.content" />
             </template>
         </UChatMessages>
+        
         <UChatPrompt
             v-model="input"
             class="chat__prompt"
             variant="soft" 
             @submit="submit">
+
             <UChatPromptSubmit/>
         </UChatPrompt>
+
     </UContainer>
 </template>
 
 <style lang="css" scoped>
-    @reference "../assets/css/main.css";
+    @reference "../../assets/css/main.css";
 
     .chat {
         flex: 1 1 auto;

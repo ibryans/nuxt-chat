@@ -1,22 +1,32 @@
 <script setup lang="ts">
     const route = useRoute();
+    const { chats, createChat } = useChats();
 
     const pageTitle = computed(() => {
         return route.name?.toString();
     }); 
 
-    const menuItems = [
+    const menuItems = computed(() => [
         {
             label: "Home",
             icon: "i-lucide-house",
             to: "/"
         },
         {
-            label: "Chat",
+            label: "Chats",
             icon: "i-lucide-message-circle",
-            to: "/chat"
-        },
-    ];
+            defaultOpen: true,
+            children: chats.value.map(chat => ({
+                label: chat.title || "Untitled Chat",
+                to: `/chats/${chat.id}`
+            }))
+        }
+    ]);
+
+    const handleCreateChat = () => {
+        const newChat = createChat();
+        navigateTo(`/chats/${newChat.id}`);
+    };
 </script>
 
 <template>
@@ -43,6 +53,13 @@
             <UDashboardNavbar :title="pageTitle">
                 <template #leading>
                     <UDashboardSidebarCollapse/>
+                </template>
+
+                <template #right>
+                    <UButton @click="handleCreateChat">
+                        <UIcon name="i-lucide-plus" size="18" />
+                        New Chat
+                    </UButton>
                 </template>
             </UDashboardNavbar>
             
