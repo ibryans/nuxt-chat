@@ -1,5 +1,3 @@
-import type { Chat } from "~/types";
-
 export default function useChats() {
     const chats = useState<Chat[]>("chats", () => []);
 
@@ -9,7 +7,9 @@ export default function useChats() {
         const chat = {
             id,
             title: "New Chat #" + id,
-            messages: []
+            messages: [],
+            createdAt: new Date(),
+            updatedAt: new Date()
         };
 
         chats.value.push(chat);
