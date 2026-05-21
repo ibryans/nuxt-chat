@@ -1,23 +1,20 @@
 export default function useChats() {
-    const chats = useState<Chat[]>("chats", () => []);
+    const { data: chats, pending, refresh } = useAsyncData("chats", async () => {
+        const response = await $fetch<Chat[]>("/api/chats", { method: "GET" });
+        return response;
+    })
 
-    function createChat() {
-        const id = (chats.value.length + 1).toString();
-
-        const chat = {
-            id,
-            title: "New Chat #" + id,
-            messages: [],
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
-
-        chats.value.push(chat);
-        return chat;
+    async function createChat(title?: string) {
+        return await $fetch("/api/chats", { 
+            method: "POST", 
+            body: { title }
+        });
     }
 
     return {
         chats,
+        pending,
+        refresh,
         createChat
     }
 }

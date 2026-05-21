@@ -1,6 +1,6 @@
 <script setup lang="ts">
     const route = useRoute();
-    const { chats, createChat } = useChats();
+    const { chats, createChat, refresh } = useChats();
 
     const pageTitle = computed(() => {
         return route.name?.toString();
@@ -16,16 +16,17 @@
             label: "Chats",
             icon: "i-lucide-message-circle",
             defaultOpen: true,
-            children: chats.value.map(chat => ({
+            children: chats.value?.map(chat => ({
                 label: chat.title || "Untitled Chat",
                 to: `/chats/${chat.id}`
             }))
         }
     ]);
 
-    const handleCreateChat = () => {
-        const newChat = createChat();
+    const handleCreateChat = async () => {
+        const newChat = await createChat();
         navigateTo(`/chats/${newChat.id}`);
+        refresh();
     };
 </script>
 

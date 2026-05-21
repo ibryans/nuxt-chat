@@ -2,7 +2,7 @@
 export default function useChat(chatId: string) {
     const { chats } = useChats();
     
-    const chat = computed(() => chats.value.find(c => c.id === chatId) as Chat);
+    const chat = computed(() => chats.value?.find(c => c.id === chatId) as Chat);
     
     const messages = computed<ChatMessage[]>(() => chat.value?.messages || []);
 
